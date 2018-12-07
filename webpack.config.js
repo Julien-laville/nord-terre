@@ -1,23 +1,34 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const outputDir = path.join(__dirname, 'build/');
+const outputDir = path.join(__dirname, 'public/build/');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './lib/js/src/Index.bs.js',
+  entry: __dirname + '/src/index.js',
   output: {
     path: outputDir,
     publicPath: outputDir,
-    filename: 'Index.js',
+    filename: 'bundle.js',
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: false
-    })
-  ],
+  plugins: [new HtmlWebpackPlugin({
+    template: 'template.html',
+    inject: 'body',
+  })],
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['@babel/react']
+        }
+      }
+    ]
+  },
+  devtool: 'source-map',
   devServer: {
     compress: true,
-    contentBase: outputDir,
+    contentBase: path.join(__dirname, 'public/build/'),
     port: process.env.PORT || 8000,
     historyApiFallback: true
   }
