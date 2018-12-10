@@ -1,19 +1,26 @@
 const express = require('express')
 const app = express()
 
+const Party = require('./party')
 
 const parties = []
-const PARTY_PENDING = new Symbol()
-const PARTY_RUNNING = new Symbol()
-const PARTY_ENDED = new Symbol()
 
-const Party = (id) => {
-  this.status = PARTY_PENDING
-  this.id = id
-  this.players = []
-}
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
+
+app.get('/', (req, res) => {
+  res.status(404)
+  res.json({error : 'empty route'})
+})
 
 app.get('/parties', (req, res) => {
+
+
   res.json(parties)
 })
 
@@ -35,4 +42,5 @@ app.post('/join/:id', (req, res) => {
   res.json({success : true})
 })
 
-
+console.log("listen on http://localhost:8001")
+app.listen('8001')

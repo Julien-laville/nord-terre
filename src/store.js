@@ -1,5 +1,7 @@
-import { createStore } from "redux"
+import { createStore, combineReducers } from "redux"
 import rootReducer from "./reducer"
-const store = createStore(rootReducer)
+import partyReducer from './partyReducer'
+
+const store = createStore(combineReducers({root : rootReducer, party : partyReducer}))
 
 export default store

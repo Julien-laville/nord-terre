@@ -25908,46 +25908,94 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./src/home_component.jsx":
-/*!********************************!*\
-  !*** ./src/home_component.jsx ***!
-  \********************************/
-/*! exports provided: default */
+/***/ "./src/action.js":
+/*!***********************!*\
+  !*** ./src/action.js ***!
+  \***********************/
+/*! exports provided: getParties, upD */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HomeComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getParties", function() { return getParties; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "upD", function() { return upD; });
+const getParties = async () => {
+  let parties = await fetch('/parties');
+  return {
+    type: 'GET_PARTIES',
+    payload: parties
+  };
+};
+const upD = to => {
+  return {
+    type: 'UPDATE_DISPLAY',
+    payload: to
+  };
+};
+
+/***/ }),
+
+/***/ "./src/home_component.jsx":
+/*!********************************!*\
+  !*** ./src/home_component.jsx ***!
+  \********************************/
+/*! exports provided: DISPLAY_PARTIES, CREATE_PARTY, JOIN_PARTY, PLAY_PARTY, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DISPLAY_PARTIES", function() { return DISPLAY_PARTIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_PARTY", function() { return CREATE_PARTY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_PARTY", function() { return JOIN_PARTY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PLAY_PARTY", function() { return PLAY_PARTY; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./src/store.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _action__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./action */ "./src/action.js");
+/* harmony import */ var _parties_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parties.jsx */ "./src/parties.jsx");
 
+
+
+
+const DISPLAY_PARTIES = 'display_parties';
+const CREATE_PARTY = 'create';
+const JOIN_PARTY = 'join';
+const PLAY_PARTY = 'parties';
 
 class HomeComponent extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor() {
     super();
-    this.props.parties = _store__WEBPACK_IMPORTED_MODULE_1__["default"].getState().parties;
   }
 
-  join() {}
+  join(id) {
+    this.props.dispatch(join);
+  }
 
-  create() {}
+  create() {
+    this.props.dispatch(Object(_action__WEBPACK_IMPORTED_MODULE_2__["upD"])());
+  }
 
-  refresh() {}
+  refresh() {
+    this.props.dispatch(Object(_action__WEBPACK_IMPORTED_MODULE_2__["getParties"])());
+  }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Home"), _store__WEBPACK_IMPORTED_MODULE_1__["default"].parties.map(party => {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, party);
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: this.refresh
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Home"), this.props.display === DISPLAY_PARTIES && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_parties_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null), this.props.display === CREATE_PARTY && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Party, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: () => this.refresh()
     }, "refresh"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: this.join
-    }, "join"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: this.create
+      onClick: () => this.create()
     }, "create party"));
   }
 
 }
+
+const mapStateToProps = state => {
+  return {
+    display: state.display
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(HomeComponent));
 
 /***/ }),
 
@@ -25979,6 +26027,42 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 
 /***/ }),
 
+/***/ "./src/parties.jsx":
+/*!*************************!*\
+  !*** ./src/parties.jsx ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+class Parties extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  render() {
+    return this.props.parties && this.props.parties.map(party => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, party.id, " - ", party.count, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: () => this.join()
+      }, "join"));
+    });
+  }
+
+}
+
+const mapStateToProps = state => {
+  return {
+    parties: state.parties
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Parties));
+
+/***/ }),
+
 /***/ "./src/reducer.js":
 /*!************************!*\
   !*** ./src/reducer.js ***!
@@ -25988,12 +26072,28 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _home_component_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home_component.jsx */ "./src/home_component.jsx");
+
 const initialState = {
-  parties: []
+  parties: [],
+  display: _home_component_jsx__WEBPACK_IMPORTED_MODULE_0__["DISPLAY_PARTIES"]
 };
 
 const rootReducer = (state = initialState, action) => {
-  console.log(state);
+  if (action.type === 'GET_PARTIES') {
+    let a = Object.assign({}, undefined, {
+      parties: action.payload
+    });
+    console.log(a);
+    return a;
+  }
+
+  if (action.type === 'UP_D') {
+    return Object.assign({}, undefined, {
+      display: undefined.payload
+    }); // {..., parties : action.payload}
+  }
+
   return state;
 };
 

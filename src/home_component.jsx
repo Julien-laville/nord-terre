@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getParties, partyCreation} from './action'
+import {createParty} from './middlewares'
+import Parties from './parties.jsx'
+import Party from './party.jsx'
+
+export const DISPLAY_PARTIES = 'display_parties'
+export const CREATE_PARTY = 'create'
+export const JOIN_PARTY = 'join'
+export const PLAY_PARTY = 'parties'
 
 class HomeComponent extends Component {
 
@@ -8,38 +15,24 @@ class HomeComponent extends Component {
     super()
   }
 
-  join() {
-
-  }
-
   create() {
-    this.props.dispatch(partyCreation)
-  }
-
-  refresh() {
-    this.props.dispatch(getParties())
+    createParty(this.props.dispatch)
   }
 
   render() {
     return(
       <div>
         <h1>Home</h1>
-        {
-          this.props.parties && this.props.parties.map((party)=> {
-            return (
-              <h3>{party}</h3>
-            )
-          })
-        }
-        <button onClick={() => this.refresh()}>refresh</button>
-        <button onClick={this.create}>create party</button>
+        {this.props.display === DISPLAY_PARTIES && <Parties/>}
+        {(this.props.display === CREATE_PARTY || this.props.display === JOIN_PARTY) && <Party/>}
+        <button onClick={() => this.create()}>create party</button>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {parties : state.parties}
+const mapStateToProps = ({root}) => {
+  return {display : root.display}
 }
 
 export default connect(mapStateToProps)(HomeComponent)
