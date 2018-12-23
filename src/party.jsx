@@ -1,48 +1,44 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {CREATE_PARTY, JOIN_PARTY} from './home_component.jsx'
+import {CREATE_PARTY} from './home_component.jsx'
 import {getPartyInfo} from './middlewares'
 
 class Party extends Component{
 
   start() {
-    console.log('start')
     console.log(this.props)
   }
 
-  update() {
-    getPartyInfo(this.props.dispatch)
+  async update() {
+    this.props.root.party = await getPartyInfo(this.props.root.party.id)
   }
 
   render() {
     return(
       <div>
-        {this.props.display === CREATE_PARTY && (
+        <h3>{this.props.root.party.id}</h3>
+        {this.props.root.display === CREATE_PARTY && (
           <p>
             You host
             <button onClick={this.start}>Start</button>
           </p>
         )}
       <ul>
-        {this.props.party && (
+        {this.props.root.party && (
 
           <div>
-            {this.props.party.status}<br/>
+            {this.props.root.party.status}<br/>
             Players:
             <ul>
-              {this.props.party.players.map((player) => {
-
+              {this.props.root.party.players.map(player =>
                 <li>{player}</li>
-
-              })
-              }
-
+              )}
             </ul>
           </div>
 
           )}
       </ul>
-        <button onClick={() => this.update()}>update party info</button>
+        <button onClick={() => this.update()}>Update party info</button>
       </div>
     )
   }

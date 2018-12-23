@@ -4,7 +4,8 @@
   "scripts": {
     "webpack": "webpack -w",
     "webpack:production": "NODE_ENV=production webpack",
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server",
+    "start" : "node ./bin/index"
   },
   "keywords": [
     "BuckleScript"

@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express'
 const app = express()
 
-const Party = require('./party')
+import Party from './party.mjs'
 
 const parties = []
 
@@ -19,20 +19,33 @@ app.get('/', (req, res) => {
 })
 
 app.get('/parties', (req, res) => {
-
-
   res.json(parties)
 })
 
 app.post('/new', (req, res) => {
   let id = parties.length
-  parties.push(new Party(id))
-  res.json({id : id})
+  let party = new Party(id)
+  party.players.push('Admin')
+  parties.push(party)
+  res.json(party)
+})
+
+app.get('/join/:id', (req, res) => {
+  let id = parseInt(req.params.id)
+  let party = parties.find(party => party.id === id)
+  party.players.push('Pepe')
+  res.json(party)
+})
+
+app.get('/party/:id', (req, res) => {
+  let id = parseInt(req.params.id)
+  let party = parties.find(party => party.id === id)
+  res.json(party)
 })
 
 app.post('/start/:id', (req, res) => {
   let party = parties.find((party) => party.id === req.body.partyId)
-  party.status = PARTY_RUNNING
+  party.start()
   res.json({success : true})
 })
 

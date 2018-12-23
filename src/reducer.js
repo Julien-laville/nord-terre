@@ -7,18 +7,17 @@ const initialState = {
 };
 const rootReducer = (state = initialState, action) => {
   if(action.type === 'GET_PARTIES') {
-    let a =  {
+    return  {
       ...state,
       parties : action.payload
     }
-    return a
   }
 
 
   if(action.type === JOIN_PARTY) {
     return {
       ...state,
-      partyId : action.payload,
+      party : action.payload,
       display : JOIN_PARTY
     }
   }
@@ -26,6 +25,7 @@ const rootReducer = (state = initialState, action) => {
   if(action.type === CREATE_PARTY) {
     return {
       ...state,
+      party : action.payload,
       display : CREATE_PARTY
     }
   }

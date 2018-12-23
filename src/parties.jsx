@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getPartiesMiddle} from "./middlewares";
+import {getPartiesMiddle, joinParty} from "./middlewares";
 
 import {JOIN_PARTY} from './home_component.jsx'
 class Parties extends Component {
 
 
-  join(id) {
-    this.props.dispatch({type : JOIN_PARTY, payload : id})
+  async join(id) {
+    let party = await joinParty(id)
+    this.props.dispatch({type : JOIN_PARTY, payload : party})
   }
 
   refresh() {
