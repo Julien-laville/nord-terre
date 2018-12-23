@@ -18,11 +18,6 @@ export const joinParty = async (id) => {
   return await partyResponse.json()
 }
 
-export const createParty = async(id) => {
-  let startParty = await fetch(`${API_URL}/start/${id}`)
-
-}
-
 
 
 export const getPartyInfo = async (id) => {

@@ -1,6 +1,5 @@
 const PARTY_PENDING = 'pending'
 const PARTY_RUNNING = 'running'
-const PARTY_ENDED = 'ended'
 
 import Deck from '../common/deck.mjs'
 export default class Party {

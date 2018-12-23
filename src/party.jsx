@@ -20,7 +20,7 @@ class Party extends Component{
         {this.props.root.display === CREATE_PARTY && (
           <p>
             You host
-            <button onClick={this.start}>Start</button>
+            <button onClick={() => this.start()}>Start</button>
           </p>
         )}
       <ul>
