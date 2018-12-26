@@ -20,7 +20,7 @@ class Parties extends Component {
       <div>
         {this.props.parties && this.props.parties.map((party) => {
           return (
-            <h3>
+            <h3 key={party.id}>
               {party.id} - {party.count}
               <button onClick={() => this.join(party.id)}>join</button>
             </h3>

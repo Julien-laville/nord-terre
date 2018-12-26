@@ -1,10 +1,11 @@
-import {DISPLAY_PARTIES, CREATE_PARTY, JOIN_PARTY} from './home_component.jsx'
+import {DISPLAY_PARTIES, CREATE_PARTY, JOIN_PARTY, PLAY_PARTY} from './home_component.jsx'
 
 const initialState = {
   parties: [],
   partyId : -1,
   display : DISPLAY_PARTIES
-};
+}
+
 const rootReducer = (state = initialState, action) => {
   if(action.type === 'GET_PARTIES') {
     return  {
@@ -12,7 +13,6 @@ const rootReducer = (state = initialState, action) => {
       parties : action.payload
     }
   }
-
 
   if(action.type === JOIN_PARTY) {
     return {
@@ -29,10 +29,12 @@ const rootReducer = (state = initialState, action) => {
       display : CREATE_PARTY
     }
   }
-  if(action.type === 'UP_D') {
+
+  if(action.type === PLAY_PARTY) {
     return {
       ...state,
-      display : this.payload
+      party : action.payload,
+      display : PLAY_PARTY
     }
   }
   return state

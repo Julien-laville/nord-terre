@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import Card from './card'
+import Card from './card.jsx'
 
 class Table extends Component {
   constructor() {
@@ -14,9 +14,23 @@ class Table extends Component {
     this.props.isVisible = false
   }
 
+  componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:8000/table')
+    this.socket.addEventListener('open', () => {
+      console.log('connection established')
+    })
+    this.socket.addEventListener('message', (e) => {
+      console.log('> ', e)
+    })
+  }
+
+  componentWillUnmount() {
+    this.socket.close()
+  }
+
   render() {
     return(
-      <div>
+      <div className="table">
         <Card card={this.props.leftCard}/>
         <Card card={this.props.rightCard}/>
         {this.props.isVisible && (
@@ -26,7 +40,6 @@ class Table extends Component {
           <button onClick={() => this.hide()}>Show/hide</button>
         )}
       </div>
-
     )
   }
 }

@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {CREATE_PARTY} from './home_component.jsx'
+import {CREATE_PARTY, PLAY_PARTY} from './home_component.jsx'
 import {getPartyInfo} from './middlewares'
 
 class Party extends Component{
 
   start() {
-    console.log(this.props)
+    this.props.dispatch({type: PLAY_PARTY, payload: this.props.root.party.id})
   }
 
   async update() {
@@ -30,8 +30,8 @@ class Party extends Component{
             {this.props.root.party.status}<br/>
             Players:
             <ul>
-              {this.props.root.party.players.map(player =>
-                <li>{player}</li>
+              {this.props.root.party.players.map((player, i) =>
+                <li key={`${player}_${i}`}>{player}</li>
               )}
             </ul>
           </div>

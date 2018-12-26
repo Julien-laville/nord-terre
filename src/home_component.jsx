@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {createParty} from './middlewares'
 import Parties from './parties.jsx'
 import Party from './party.jsx'
+import Table from './game/table.jsx'
 
 export const DISPLAY_PARTIES = 'display_parties'
 export const CREATE_PARTY = 'create'
@@ -25,6 +26,7 @@ class HomeComponent extends Component {
         <h1>Home</h1>
         {this.props.display === DISPLAY_PARTIES && <Parties/>}
         {(this.props.display === CREATE_PARTY || this.props.display === JOIN_PARTY) && <Party/>}
+        {this.props.display === PLAY_PARTY && <Table/>}
         <button onClick={() => this.create()}>create party</button>
       </div>
     )

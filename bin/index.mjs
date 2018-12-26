@@ -1,10 +1,10 @@
 import express from 'express'
 const app = express()
-
+import ExpressWs from 'express-ws'
 import Party from './party.mjs'
 
 const parties = []
-
+ExpressWs(app)
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -54,6 +54,12 @@ app.post('/join/:id', (req, res) => {
   party.players.push(party.players.length)
   res.json({success : true})
 })
+
+app.ws('/table', function(ws, req) {
+  ws.on('message', function(message) {
+    console.log('> ', message)
+  });
+});
 
 console.log("listen on http://localhost:8001")
 app.listen('8001')
