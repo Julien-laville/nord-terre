@@ -3,10 +3,7 @@ import {connect} from 'react-redux'
 import Card from './card.jsx'
 
 class Table extends Component {
-  constructor() {
-    super()
-    this.props.isVisible = true
-  }
+
   show() {
     this.props.isVisible = true
   }
@@ -31,8 +28,8 @@ class Table extends Component {
   render() {
     return(
       <div className="table">
-        <Card card={this.props.leftCard}/>
-        <Card card={this.props.rightCard}/>
+        <Card card={this.props.table.leftCard}/>
+        <Card card={this.props.table.rightCard}/>
         {this.props.isVisible && (
           <button onClick={() => this.show()}>Show/hide</button>
         )}
@@ -44,8 +41,8 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = ({leftCard, rightCard}) => {
-  return {leftCard, rightCard}
+const mapStateToProps = ({table}) => {
+  return {table:table}
 }
 
 export default connect(mapStateToProps)(Table)
