@@ -33,8 +33,9 @@ app.post('/new', (req, res) => {
 app.get('/join/:id', (req, res) => {
   let id = parseInt(req.params.id)
   let party = parties.find(party => party.id === id)
+  let playerId = party.players.length
   party.players.push('Pepe')
-  res.json(party)
+  res.json(playerId)
 })
 
 app.get('/party/:id', (req, res) => {
@@ -49,11 +50,7 @@ app.post('/start/:id', (req, res) => {
   res.json({success : true})
 })
 
-app.post('/join/:id', (req, res) => {
-  let party = parties.find((party) => party.id === req.body.partyId)
-  party.players.push(party.players.length)
-  res.json({success : true})
-})
+
 
 app.ws('/table', function(ws, req) {
   ws.on('message', function(message) {

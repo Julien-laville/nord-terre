@@ -6,15 +6,18 @@ export default class Card extends Component{
   }
 
   render() {
-    return (
-      <div>
-        {this.props.card && (
-          <h1>{this.props.card.name}</h1>
-        )}
-        {this.props.card && (
-          <h3>{this.props.card.status}</h3>
-        )}
-      </div>
+    return(
+        this.props.isVisible && (
+        <div>
+          Visible
+          {this.props.card && (
+            <h1>{this.props.card.name}</h1>
+          )}
+          {this.props.card && (
+            <h3>{this.props.card.status}</h3>
+          )}
+        </div>
+      )
     )
   }
 }

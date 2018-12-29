@@ -21,7 +21,6 @@ export const joinParty = async (id) => {
 
 
 export const getPartyInfo = async (id) => {
-  console.log(id)
   let partyResponse = await fetch(`${API_URL}/party/${id}`)
   return await partyResponse.json()
 }
@@ -32,5 +31,4 @@ export const createParty = async (dispatch) => {
   let response = await rawResponse.json()
 
   dispatch({type : CREATE_PARTY, payload: response})
-
 }

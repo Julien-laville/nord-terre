@@ -8,7 +8,7 @@ class Parties extends Component {
 
   async join(id) {
     let party = await joinParty(id)
-    this.props.dispatch({type : JOIN_PARTY, payload : party})
+    this.props.dispatch({type : JOIN_PARTY, payload : {playerId : party, partyId : id}})
   }
 
   refresh() {
